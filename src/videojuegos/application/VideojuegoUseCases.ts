@@ -7,10 +7,10 @@ export default class VideojuegoUseCases{
     constructor(videojuegoRepository: VideojuegoRepository){
         this.videojuegoRepository=videojuegoRepository;
     }
-    async getAll(){
-        return await this.getAll()
+    async getAll() {
+        await this.videojuegoRepository.getAll();
     }
-    async save(videojuego: Videojuego){
+    async save(videojuego: Videojuego[]){
         return await this.videojuegoRepository.save(videojuego)
     }
 }

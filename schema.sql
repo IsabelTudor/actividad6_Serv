@@ -5,6 +5,5 @@ CREATE TABLE usuarios (
 );
 CREATE TABLE videojuegos (
     id serial primary key,
-    nombre varchar(100),
-    usuario varchar(100) references usuarios(nombre)
+    nombre varchar(255)
 );
