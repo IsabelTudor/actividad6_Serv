@@ -1,6 +1,7 @@
 import Usuario from "../../domain/Usuario";
 import UsuarioRepository from "../../domain/UsuarioRepository";
 import executeQuery from "../../../context/db/postgres.connection"
+import Compras from "../../domain/compras";
 export default class UsuarioRepositoryPostgres implements UsuarioRepository{
     async registrar(usuario: Usuario): Promise<Usuario | undefined> {
         const {nombre, password}= usuario;
@@ -15,7 +16,6 @@ export default class UsuarioRepositoryPostgres implements UsuarioRepository{
         return usuarioDB;  
         }catch (error){
             console.error("No se ha podido registrar el usuario");
-            return undefined
         }
     }
     async login(usuario: Usuario): Promise<Usuario | undefined> {
@@ -36,6 +36,36 @@ export default class UsuarioRepositoryPostgres implements UsuarioRepository{
         }catch(error){
             console.error("No se ha podido logear el usuario");
             return undefined
+        }
+    }
+    async insertarEnCarrito(idUsuario: number, idVideojuego: number): Promise<Compras[] | undefined> {
+        try{
+            const sql=`insert into compras(idUsuario,idVideojuego,comprado) values (${idUsuario},${idVideojuego},'false')`;
+            await executeQuery(sql);
+            return this.getCarrito(idUsuario)
+        }catch (error){
+            console.error("No se pudo insertar en el carrito");
+            
+        }
+        
+    }
+    async getCarrito(idUsuario:number): Promise<Compras[] | undefined> {
+        try{
+            const sql=`SELECT * from compras where idUsuario=${idUsuario} AND comprado='false'`
+            const carritoDB= await executeQuery(sql);
+            return carritoDB;
+        }catch(error){
+            console.error("Error al obtener el carrito");
+            
+        }
+    }
+    async getComprados(idUsuario: number): Promise<Compras[] | undefined> {
+        try{
+            const sql=`SELECT * from compras where idUsuario=${idUsuario} AND comprado='true'`
+            const compradosDB= await executeQuery(sql);
+            return compradosDB;
+        }catch(error){
+            console.error("Error al obtener el carrito");
         }
     }
 

@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import UsuarioRepository from "../../domain/UsuarioRepository";
 import UsuarioRepositoryPostgres from "../../infrastructure/db/Usuario.postgres";
 import UsuarioUseCases from "../../application/UsuarioUseCases";
-import { createToken } from "../../../context/security/auth";
+import { createToken, isAuth } from "../../../context/security/auth";
 import Usuario from "../../domain/Usuario";
 
 
@@ -19,7 +19,7 @@ router.post("/registro", async (req: Request, res: Response) => {
       password
     };
     const usuario: any = await usuarioUseCases.registrar(usuarioAPI);
-    res.json({ id: usuario.id,nombre: usuario.nombre });
+    res.json(usuario);
   });
 
   router.post("/login", async (req: Request, res: Response) => {
@@ -34,4 +34,22 @@ router.post("/registro", async (req: Request, res: Response) => {
     const token = createToken(usuario);
     res.json({ token });
   });
+  router.post("/insertar", isAuth,async(req,res)=>{
+    const idUsuario=req.body.user;
+    const idVideojuego=req.body.id;
+
+    const carritoInsercion=await usuarioUseCases.insertEnCarrito(idUsuario,idVideojuego);
+    res.json(carritoInsercion)
+  })
+  router.get("/carrito",isAuth,async(req,res)=>{
+    const idUsuario=req.body.user;
+
+    const carritoUsuario=await usuarioUseCases.getCarrito(idUsuario);
+    res.json(carritoUsuario);
+  })
+  router.get("/compra", isAuth, async(req,res)=>{
+    const idUsuario= req.body.user;
+    const comprasUsuario= await usuarioUseCases.getComprados(idUsuario);
+    res.json(comprasUsuario);
+  })
   export default router;

@@ -24,7 +24,16 @@ export default class UsuarioUseCases{
       return usuarioBD;
     } else {
       throw new Error("Usuario/contraseña no es correcto");
+      }
     }
-  }
+    async insertEnCarrito(idUsuario:number,idVideojuego:number){
+      return await this.usuarioRepository.insertarEnCarrito(idUsuario,idVideojuego)
     }
+    async getCarrito(idUsuario:number){
+      return await this.usuarioRepository.getCarrito(idUsuario);
+    }
+    async getComprados(idUsuario:number){
+      return await this.usuarioRepository.getComprados(idUsuario);
+    }
+}
     

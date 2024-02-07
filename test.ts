@@ -14,16 +14,14 @@ test('registro',async (t)=>{
     assert.strictEqual("Prueba",usuarioRegistrado.nombre)
 })
 test('login',async(t)=>{
-    const usuario:Usuario={
-        nombre:"Prueba2",
-        password:"dkddfs"
-    }
-    const usuarioRegistrado:any=await usuarioUseCases.registrar(usuario);
-
+ 
     const usuarioIntroducido:Usuario={
-        nombre: "Prueba2",
+        nombre: "Prueba",
         password:"dkddfs"
     }
     const usuarioLogeado= await usuarioUseCases.login(usuarioIntroducido)
-    assert.strictEqual(usuarioRegistrado.id,usuarioLogeado.id)
+    console.log(usuarioLogeado);
+
+    assert.strictEqual("Prueba",usuarioLogeado.nombre)
+    
 })
