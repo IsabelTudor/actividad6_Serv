@@ -38,21 +38,6 @@ export default class UsuarioRepositoryPostgres implements UsuarioRepository{
             return undefined
         }
     }
-    async getUserById(id: number): Promise<Usuario | undefined> {
-        try{
-            const query = `SELECT * FROM usuarios WHERE id = ${id}`;
-            const rows: any[] = await executeQuery(query);
-            if (rows.length > 0) {
-                const usuarioEncontrado: Usuario = {
-                    id: rows[0].id,
-                    nombre: rows[0].nombre,
-                    password: rows[0].password
-                };
-                return usuarioEncontrado;
-        }}catch(error){
-            console.error("No se ha encontrado ningun usuario");
-            return undefined   
-        }
-    }
+
 
 }
