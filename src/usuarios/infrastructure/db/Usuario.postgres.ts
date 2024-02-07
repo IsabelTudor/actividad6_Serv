@@ -59,13 +59,23 @@ export default class UsuarioRepositoryPostgres implements UsuarioRepository{
             
         }
     }
+    async comprar(idUsuario: number, idVideojuego: number): Promise<Compras[] | undefined> {
+        try{
+            const sql=`update compras set comprado='true' where idUsuario=${idUsuario} and idVideojuego=${idVideojuego}`
+            await executeQuery(sql);
+            return this.getComprados(idUsuario)
+        }catch(error){
+            console.error("Error al comprar");
+        }
+        throw new Error("Method not implemented.");
+    }
     async getComprados(idUsuario: number): Promise<Compras[] | undefined> {
         try{
-            const sql=`SELECT * from compras where idUsuario=${idUsuario} AND comprado='true'`
+            const sql=`SELECT * from compras where idUsuario=${idUsuario} AND comprado=true`
             const compradosDB= await executeQuery(sql);
             return compradosDB;
         }catch(error){
-            console.error("Error al obtener el carrito");
+            console.error("Error al obtener la compra");
         }
     }
 

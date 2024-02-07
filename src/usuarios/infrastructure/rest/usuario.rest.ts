@@ -47,6 +47,12 @@ router.post("/registro", async (req: Request, res: Response) => {
     const carritoUsuario=await usuarioUseCases.getCarrito(idUsuario);
     res.json(carritoUsuario);
   })
+  router.post("/comprar", isAuth,async(req,res)=>{
+    const idUsuario=req.body.user;
+    const idVideojuego=req.body.id;
+    const comprar=await usuarioUseCases.comprar(idUsuario,idVideojuego);
+    return comprar;
+  })
   router.get("/compra", isAuth, async(req,res)=>{
     const idUsuario= req.body.user;
     const comprasUsuario= await usuarioUseCases.getComprados(idUsuario);

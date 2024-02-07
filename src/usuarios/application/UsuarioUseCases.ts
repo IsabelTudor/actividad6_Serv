@@ -32,6 +32,9 @@ export default class UsuarioUseCases{
     async getCarrito(idUsuario:number){
       return await this.usuarioRepository.getCarrito(idUsuario);
     }
+    async comprar(idUsuario:number,idVideojuego:number){
+      return await this.usuarioRepository.comprar(idUsuario,idVideojuego);
+    }
     async getComprados(idUsuario:number){
       return await this.usuarioRepository.getComprados(idUsuario);
     }
